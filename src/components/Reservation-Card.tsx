@@ -37,7 +37,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
   const imageSecret =
     itemPicture?.secret || calendar.subject?.microsite?.logo?.secret || null;
 
-  // načtení S3 URL přes async utilitu getImageUrl
   useEffect(() => {
     let cancelled = false;
     setResolvedImageUrl(null);

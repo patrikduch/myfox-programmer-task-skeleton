@@ -64,12 +64,10 @@ const BaseLayout: React.FC = () => {
         </div>
       )}
 
-      {/* Main Content */}
       <main className="max-w-md lg:max-w-6xl xl:max-w-7xl mx-auto px-4 py-6">
         <Outlet />
       </main>
 
-      {/* Bottom Navigation - Mobile */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-50">
         <div className="max-w-md mx-auto flex">
           <NavLink
