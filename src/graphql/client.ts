@@ -1,9 +1,13 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import {
+  GRAPHQL_API_URI,
+  GRAPHQL_API_KEY,
+} from "@/constants/graphql-constants";
 
 const httpLink = new HttpLink({
-  uri: "https://cmyp37vc53jlbv5wa3nrnez6mi0dktla.lambda-url.eu-central-1.on.aws/",
+  uri: GRAPHQL_API_URI,
   headers: {
-    "X-Api-Key": "da2-gcyvktbwpfhnznbpdaghdbyf7m",
+    "X-Api-Key": GRAPHQL_API_KEY,
   },
 });
 
