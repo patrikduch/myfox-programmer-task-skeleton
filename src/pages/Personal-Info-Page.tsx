@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { User, Mail, Phone, Loader2 } from "lucide-react";
-import { GET_CUSTOMER } from "../graphql/queries";
-import { UPDATE_CUSTOMER } from "../graphql/mutations";
-import { CUSTOMER_ID } from "../constants/graphql-constants";
+import { GET_CUSTOMER } from "@/graphql/queries";
+import { UPDATE_CUSTOMER } from "@/graphql/mutations";
+import { CUSTOMER_ID } from "@/constants/graphql-constants";
 import { useNavigate } from "react-router-dom";
 
 const PersonalInfoPage: React.FC = () => {
