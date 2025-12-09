@@ -4,7 +4,8 @@ import { client } from "@/graphql/client";
 import MyReservationsPage from "@/pages/My-Reservations-Page";
 import PersonalInfoPage from "@/pages/Personal-Info-Page";
 import "./App.css";
-import BaseLayout from "./components/layout/Base.Layout";
+import BaseLayout from "@/components/layout/Base.Layout";
+import { ROUTES } from "@/constants/routes-constants";
 
 export const App: React.FC = () => {
   return (
@@ -12,10 +13,13 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <div className="App">
           <Routes>
-            <Route path="/" element={<BaseLayout />}>
+            <Route path={ROUTES.ROOT} element={<BaseLayout />}>
               <Route index element={<MyReservationsPage />} />
-              <Route path="reservations" element={<MyReservationsPage />} />
-              <Route path="personal" element={<PersonalInfoPage />} />
+              <Route
+                path={ROUTES.RESERVATIONS}
+                element={<MyReservationsPage />}
+              />
+              <Route path={ROUTES.PERSONAL} element={<PersonalInfoPage />} />
             </Route>
           </Routes>
         </div>

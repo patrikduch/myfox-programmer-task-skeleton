@@ -1,6 +1,7 @@
 import { Outlet, NavLink } from "react-router-dom";
 import { Calendar, User, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { ROUTES } from "@/constants/routes-constants";
 
 const BaseLayout: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +33,7 @@ const BaseLayout: React.FC = () => {
           <nav className="flex flex-col gap-2">
             <NavLink
               data-testid="nav-reservations-mobile"
-              to="/reservations"
+              to={ROUTES.RESERVATIONS}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
@@ -47,7 +48,7 @@ const BaseLayout: React.FC = () => {
             </NavLink>
             <NavLink
               data-testid="nav-personal-mobile"
-              to="/personal"
+              to={ROUTES.PERSONAL}
               onClick={() => setMenuOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
@@ -72,7 +73,7 @@ const BaseLayout: React.FC = () => {
         <div className="max-w-md mx-auto flex">
           <NavLink
             data-testid="nav-reservations-bottom"
-            to="/reservations"
+            to={ROUTES.RESERVATIONS}
             className={({ isActive }) =>
               `flex-1 flex flex-col items-center gap-1 py-3 transition-colors ${
                 isActive
@@ -86,7 +87,7 @@ const BaseLayout: React.FC = () => {
           </NavLink>
           <NavLink
             data-testid="nav-personal-bottom"
-            to="/personal"
+            to={ROUTES.PERSONAL}
             className={({ isActive }) =>
               `flex-1 flex flex-col items-center gap-1 py-3 transition-colors ${
                 isActive
