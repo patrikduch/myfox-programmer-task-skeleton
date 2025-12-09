@@ -48,3 +48,5 @@ However, we understand that this tool wouldn’t be useful if you couldn’t cus
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+**License:** Proprietary – see LICENSE for details.
