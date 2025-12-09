@@ -31,7 +31,6 @@ const PersonalInfoPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState<string | undefined>("");
 
-  // naplnění lokálního state po načtení zákazníka
   useEffect(() => {
     if (customer) {
       setName(customer.name ?? "");
@@ -162,7 +161,6 @@ const PersonalInfoPage: React.FC = () => {
             </div>
           </div>
 
-          {/* E-mail */}
           <div data-testid="personal-email-section" className="space-y-2">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
               E-mail
@@ -189,7 +187,6 @@ const PersonalInfoPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Telefon */}
           <div data-testid="personal-phone-section" className="space-y-2">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
               Telefon
