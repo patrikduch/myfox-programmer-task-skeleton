@@ -91,7 +91,6 @@ const PersonalInfoPage: React.FC = () => {
   };
 
   const handleCancelEdit = () => {
-    // reset zpět na původní hodnoty
     setName(customer.name ?? "");
     setSurname(customer.surname ?? "");
     setEmail(customer.email ?? "");
@@ -125,7 +124,6 @@ const PersonalInfoPage: React.FC = () => {
         </div>
 
         <div className="p-6 space-y-6">
-          {/* Jméno + příjmení */}
           <div data-testid="personal-name-section" className="space-y-2">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
               Jméno

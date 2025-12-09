@@ -38,7 +38,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
   const imageSecret =
     itemPicture?.secret || calendar.subject?.microsite?.logo?.secret || null;
 
-  // načtení S3 URL přes async utilitu getImageUrl
   useEffect(() => {
     let cancelled = false;
 
@@ -58,7 +57,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
         if (!cancelled) {
           if (url) {
             setResolvedImageUrl(url);
-            // isImageLoading necháme true, dokud skutečný <img> nespustí onLoad
           } else {
             setImageError(true);
             setIsImageLoading(false);
@@ -91,15 +89,12 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
       className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all duration-200"
     >
       <div className="relative h-40 bg-gradient-to-br from-blue-400 to-indigo-500">
-        {/* IMAGE / SKELETON / FALLBACK */}
         {imageSecret && !imageError ? (
           <>
-            {/* Skeleton během načítání */}
             {(!resolvedImageUrl || isImageLoading) && (
               <div className="w-full h-full bg-slate-200 animate-pulse" />
             )}
 
-            {/* Obrázek – fade-in po načtení, schovaný během loadingu */}
             {resolvedImageUrl && (
               <img
                 src={resolvedImageUrl}
@@ -166,7 +161,6 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
         </div>
       </div>
 
-      {/* BODY */}
       <div className="p-4 space-y-3">
         <div>
           <h3 className="text-lg font-bold text-slate-800">{itemName}</h3>
