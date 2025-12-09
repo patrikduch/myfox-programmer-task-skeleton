@@ -25,7 +25,6 @@ const MyReservations: React.FC = () => {
   if (loading) {
     return (
       <div className="space-y-6 pb-24 animate-pulse">
-        {/* Skeleton header */}
         <div className="flex items-center justify-between">
           <div className="space-y-2">
             <div className="h-6 w-40 bg-slate-200 rounded-lg" />
@@ -34,7 +33,6 @@ const MyReservations: React.FC = () => {
           <div className="h-12 w-12 rounded-full bg-slate-200" />
         </div>
 
-        {/* Skeleton cards grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
             <div

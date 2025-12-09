@@ -111,13 +111,11 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
             )}
           </>
         ) : (
-          // fallback jen když není secret nebo došlo k chybě
           <div className="w-full h-full flex items-center justify-center text-white">
             <CalendarIcon className="w-16 h-16 opacity-50" />
           </div>
         )}
 
-        {/* MENU BUTTON */}
         <div className="absolute top-3 right-3">
           <button
             data-testid={`menu-button-${calendar.id}`}
