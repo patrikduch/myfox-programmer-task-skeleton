@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Calendar as CalendarIcon,
   MapPin,
@@ -20,6 +20,7 @@ interface ReservationCardProps {
 const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
 
   const dateFrom = new Date(calendar.from);
   const dateTo = new Date(calendar.to);
@@ -34,7 +35,40 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
   const shopName = calendar.shop?.name || calendar.subject?.name || "";
 
   const imageSecret =
-    itemPicture?.secret || calendar.subject?.microsite?.logo?.secret;
+    itemPicture?.secret || calendar.subject?.microsite?.logo?.secret || null;
+
+  // načtení S3 URL přes async utilitu getImageUrl
+  useEffect(() => {
+    let cancelled = false;
+    setResolvedImageUrl(null);
+    setImageError(false);
+
+    if (!imageSecret) return;
+
+    const loadImage = async () => {
+      try {
+        const url = await getImageUrl(imageSecret);
+        if (!cancelled) {
+          if (url) {
+            setResolvedImageUrl(url);
+          } else {
+            setImageError(true);
+          }
+        }
+      } catch (err) {
+        if (!cancelled) {
+          console.error("Error loading image URL", err);
+          setImageError(true);
+        }
+      }
+    };
+
+    loadImage();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [imageSecret]);
 
   const handleMenuClick = (action: string) => {
     console.log(`Action: ${action}`);
@@ -47,9 +81,9 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
       className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all duration-200"
     >
       <div className="relative h-40 bg-gradient-to-br from-blue-400 to-indigo-500">
-        {imageSecret && !imageError ? (
+        {resolvedImageUrl && !imageError ? (
           <img
-            src={getImageUrl(imageSecret)}
+            src={resolvedImageUrl}
             alt={itemName}
             className="w-full h-full object-cover"
             onError={() => setImageError(true)}
