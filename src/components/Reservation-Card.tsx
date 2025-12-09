@@ -21,6 +21,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
+  const [isImageLoading, setIsImageLoading] = useState(false);
 
   const dateFrom = new Date(calendar.from);
   const dateTo = new Date(calendar.to);
@@ -37,12 +38,19 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
   const imageSecret =
     itemPicture?.secret || calendar.subject?.microsite?.logo?.secret || null;
 
+  // načtení S3 URL přes async utilitu getImageUrl
   useEffect(() => {
     let cancelled = false;
+
     setResolvedImageUrl(null);
     setImageError(false);
 
-    if (!imageSecret) return;
+    if (!imageSecret) {
+      setIsImageLoading(false);
+      return;
+    }
+
+    setIsImageLoading(true);
 
     const loadImage = async () => {
       try {
@@ -50,14 +58,17 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
         if (!cancelled) {
           if (url) {
             setResolvedImageUrl(url);
+            // isImageLoading necháme true, dokud skutečný <img> nespustí onLoad
           } else {
             setImageError(true);
+            setIsImageLoading(false);
           }
         }
       } catch (err) {
         if (!cancelled) {
           console.error("Error loading image URL", err);
           setImageError(true);
+          setIsImageLoading(false);
         }
       }
     };
@@ -80,19 +91,38 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
       className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-all duration-200"
     >
       <div className="relative h-40 bg-gradient-to-br from-blue-400 to-indigo-500">
-        {resolvedImageUrl && !imageError ? (
-          <img
-            src={resolvedImageUrl}
-            alt={itemName}
-            className="w-full h-full object-cover"
-            onError={() => setImageError(true)}
-          />
+        {/* IMAGE / SKELETON / FALLBACK */}
+        {imageSecret && !imageError ? (
+          <>
+            {/* Skeleton během načítání */}
+            {(!resolvedImageUrl || isImageLoading) && (
+              <div className="w-full h-full bg-slate-200 animate-pulse" />
+            )}
+
+            {/* Obrázek – fade-in po načtení, schovaný během loadingu */}
+            {resolvedImageUrl && (
+              <img
+                src={resolvedImageUrl}
+                alt={itemName}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${
+                  isImageLoading ? "opacity-0" : "opacity-100"
+                }`}
+                onLoad={() => setIsImageLoading(false)}
+                onError={() => {
+                  setImageError(true);
+                  setIsImageLoading(false);
+                }}
+              />
+            )}
+          </>
         ) : (
+          // fallback jen když není secret nebo došlo k chybě
           <div className="w-full h-full flex items-center justify-center text-white">
             <CalendarIcon className="w-16 h-16 opacity-50" />
           </div>
         )}
 
+        {/* MENU BUTTON */}
         <div className="absolute top-3 right-3">
           <button
             data-testid={`menu-button-${calendar.id}`}
@@ -136,6 +166,7 @@ const ReservationCard: React.FC<ReservationCardProps> = ({ calendar }) => {
         </div>
       </div>
 
+      {/* BODY */}
       <div className="p-4 space-y-3">
         <div>
           <h3 className="text-lg font-bold text-slate-800">{itemName}</h3>
